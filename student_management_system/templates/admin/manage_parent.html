@@ -1,0 +1,58 @@
+{% extends 'admin/list_templates.html' %}
+
+{% block header_title %}
+  Manage Parent
+{% endblock %}
+
+
+{% block table %}
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Username</th>
+                      <th>Gender</th>
+                      <th>Address</th>
+                      <th>Phone Number</th>
+                      <th>Child's Name</th>
+                      <th>Profile Image</th>
+                      <th>Last Login</th>
+                      <th>Date Joined</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for parent in parents %}
+                    <tr>
+
+                      <td>{{parent.id}}</td>
+                      <td>{{parent.admin.first_name}}</td>
+                      <td>{{parent.admin.last_name}}</td>
+                      <td>{{parent.admin.email}}</td>
+                      <td><span class="tag tag-success">{{ parent.admin.username }}</span></td>
+                      <td> {{parent.gender }}</td>
+                       <td> {{parent.address }}</td>
+                      <td> {{parent.phone_number }}</td>
+                      <td>
+                       {% for child in students %}
+                         {% if  child.parent_id == parent.id %}
+                          <li>{{ child.admin.first_name }} {{ child.admin.last_name }}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </td>
+                      {% if parent.profile_Image %}
+                         <td><img src="{{parent.profile_Image.url}}" style="width:90px"></td>
+                      {% else %}
+                        <td><img src="{{parent.profile_Image}}" style="width:90px"></td>
+                       {% endif %}
+                      <td>{{parent.admin.last_login }}</td>
+                      <td>{{parent.date_created }}</td>
+                      <td><a href="{% url 'edit_parent' parent.id %}" class="btn btn-success">Edit</a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+ {% endblock %}

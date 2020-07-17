@@ -1,0 +1,173 @@
+{% extends 'staff/base_template.html' %}
+
+
+{% block header_title %}
+Take Attendance
+{%  endblock  %}
+
+{% block main_content %}
+
+
+   <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+
+              <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Take Attendance</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+
+
+                <div class="card-body">
+
+                 <div class="form-group">
+                    <label >Class Name</label>
+                     <select  class="form-control" name="class" id="class">
+                          {% for classes in class %}
+                          <option value="{{ classes.id }}" >{{ classes.class_name }}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+
+               <div class="form-group">
+                    <label >Session</label>
+                     <select  class="form-control" name="session" id="session">
+                          {% for year in session %}
+                          <option value="{{ year.id }}" >{{ year.term }} Term</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Fetch Student</button>
+                </div>
+              <div class="form-group" >
+                  {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                  {% endif %}
+              </div>
+          <!-- /.col -->
+                  <div >
+                     <table id="student_data"  class="table table-hover text-nowrap">
+
+
+
+                      </table>
+                      <div class='btn btn-block'>
+                          <button id='save_attendance' class='btn btn-success btn-primary btn-block' style="display:none">Save Attendance </button>
+                      </div>
+                  </div>
+
+            </div>
+              </div>
+          </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+      $('#fetch_student').click(function(){
+      var grade =$('#class').val();
+      var session =$('#session').val();
+      $(this).attr('disabled','disabled')
+      $(this).text('Save Attendance First')
+
+
+      $.ajax({
+
+      url:'{% url 'student_list' %}',
+      type:'POST',
+      data:{class:grade,session:session},
+      })
+      .done(function(response){
+          var json_data = response;
+          var div_data ='<thead> <tr> <th> Attendance Date : </th> </th></thead> <tr> <td> <input type="date" name="attendance_date"id="attendance_date" class="form-control"></td> </tr>';
+          for( key in json_data )
+          {
+             div_data +="<tr><td><input type='checkbox' checked='checked'  name='student_data[]'  value='"+json_data[key][0] +"'><label class='form-check-label' style='padding:10px' > <b>"+json_data[key][1]+" </b></label> </td></tr>";
+          }
+
+
+          $('#student_data').html(div_data);
+          $('#save_attendance').show();
+
+
+
+      })
+      .fail(function(){
+      alert('Error')
+      })
+
+
+
+       $(document).on('click','#save_attendance',function(){
+       $(this).attr('disabled','disabled')
+       $(this).text('Saving Data......')
+       var student_data=$("input[name='student_data[]']").map(function(){
+
+       if ($(this).is(":checked")){
+                 return { "id": $(this).val(),'status':1};
+                 }
+                 else{
+                  return { "id": $(this).val(),'status':0};
+
+                 }
+        }).get()
+       var attendance_date=$("#attendance_date").val();
+       var class_id=$("#class").val();
+       var session_year_id=$("#session").val();
+
+
+       student_data = JSON.stringify(student_data)
+
+            $.ajax({
+
+      url:'{% url 'save_attendance_data' %}',
+      type:'POST',
+      data:{student_id:student_data,attendance_date:attendance_date,class_id:class_id,session_year_id:session_year_id},
+      })
+      .done(function(response){
+      if( response =='ok')
+      {
+      alert('Attendance Saved')
+      }
+      else
+      {
+      alert('Attendance Not Saved')
+      }
+      location.reload()
+
+
+
+      })
+      .fail(function(){
+      alert('Error')
+      })
+       })
+       });
+
+
+    });
+</script>
+{% endblock custom_js %}

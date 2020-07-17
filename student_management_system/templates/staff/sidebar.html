@@ -1,0 +1,104 @@
+{% load static %}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'staff_home' %}" class="brand-link">
+      <img src="{% static '/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-1"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% if  user.staff.profile_Image %} {{user.staff.profile_Image.url}}{% else %} {% static '/dist/img/AdminLTELogo.png' %}  {% endif %}" class="img-circle elevation-5" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="{%  url 'staff_edit_profile' %}" class="d-block">{{ user.username }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item has-treeview menu-open">
+
+          <li class="nav-item">
+            <a href="{% url 'staff_home' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Home
+
+              </p>
+            </a>
+          </li>
+       {% if user.staff.current_position == 'teacher'  %}
+         <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="{% url 'take_attendance' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Take attendance
+              </p>
+            </a>
+          </li>
+        <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="{% url 'staff_update_attendance' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                View attendance
+              </p>
+            </a>
+          </li>
+         <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="{% url 'staff_add_result' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Add Result
+              </p>
+            </a>
+          </li>
+
+         <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="{% url 'staff_edit_result' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Edit Result
+              </p>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="{% url 'view_notification' %}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                View Notification
+              </p>
+            </a>
+          </li>
+
+
+
+
+
+
+
+
+
+
+        </ul>
+
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+

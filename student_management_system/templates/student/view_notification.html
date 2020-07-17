@@ -1,0 +1,64 @@
+
+{% extends 'student/base_template.html' %}
+
+{% block header_title %}
+     Home
+{%  endblock  %}
+
+
+{% block main_content %}
+     <!-- Main content -->
+    <div class="col-md-20">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Notifications</h3>
+
+              <div class="card-tools">
+
+              </div>
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-controls">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  {% for message in notice %}
+                                  <tr>
+                                    <td class="mailbox-star"><a href=""></a></td>
+                                    <td class="mailbox-name"><a href="{%  url 'student_read_notification'  message.id  %}">{{ message.notify.receiver }}</a></td>
+                                      <td class="mailbox-subject"> <div style="width:500px;overflow: hidden; white-space:nowrap; text-overflow:ellipsis ; margin-left:0 ">  <b>{{ message.notify.name }}</b><span>   - {{ message.notify.description }}</span></div>
+                                    </td>
+                                    <td class="mailbox-attachment"></td>
+                                    <td class="mailbox-date">{{ message.created_at }}</td>
+                                  </tr>
+
+                   {%  endfor %}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+    <!-- /.content -->
+
+
+{% endblock main_content %}
+

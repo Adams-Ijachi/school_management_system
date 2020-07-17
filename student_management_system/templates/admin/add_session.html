@@ -1,0 +1,32 @@
+{% extends 'admin/base_template.html' %}
+
+
+{% block header_title %}
+      Add  Session
+{%  endblock  %}
+
+{% block main_content %}
+
+
+   <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+
+              <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Add Session</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              {% url 'add_session_save' as action_path %}
+             {% include 'admin/form_templates.html' with  messages=messages form=form  action_path=action_path  button_text='Add Session' %}
+            </div>
+              </div>
+          </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}

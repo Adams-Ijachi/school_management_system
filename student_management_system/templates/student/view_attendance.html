@@ -1,0 +1,34 @@
+{% extends 'student/list_templates.html' %}
+
+{% block header_title %}
+  View Attendance
+{% endblock %}
+
+
+
+{% block table %}
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Class </th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for student in attendance %}
+                    <tr>
+
+                        <td><b>{{ student.student_id.grade.class_name}}</b></td>
+
+                      <td> <b>{{ student.attendance_id.attendance_date }}</b></td>
+                        {% if student.status %}
+                         <td > <b class="present" style="padding:3px; background:green">Present</b></td>
+                        {% else %}
+                         <td> <b class="absent" style="padding:3px; background:red">Absent</b></td>
+                        {% endif %}
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+ {% endblock %}

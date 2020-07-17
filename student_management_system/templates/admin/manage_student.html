@@ -1,0 +1,74 @@
+{% extends 'admin/list_templates.html' %}
+
+{% block header_title %}
+  Manage Student
+{% endblock %}
+
+
+
+
+{% block form %}
+    <div class="row">
+      <div class="col">
+        <div class="card card-body">
+          <form method="get">
+              {{ myFilter.form.as_p }}
+              <div class="btn btn-block">
+                <button type="submit" class="btn btn-primary form-control"><i class="fas fa-search"></i></button>
+              </div>
+          </form>
+          </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block table %}
+     <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Username</th>
+                      <th>Address</th>
+                      <th>Parent's Email</th>
+                      <th>Parent's Number</th>
+                      <th>Gender</th>
+                      <th>Class</th>
+                      <th>Profile Picture</th>
+                      <th>Last Login</th>
+                      <th>Date Joined</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for students in student %}
+                    <tr>
+
+                      <td>{{students.id}}</td>
+                      <td>{{students.admin.first_name}}</td>
+                      <td>{{students.admin.last_name}}</td>
+                      <td>{{students.admin.email}}</td>
+                      <td><span class="tag tag-success">{{ students.admin.username }}</span></td>
+                      <td>{{students.address}}</td>
+                      <td>{{students.parent.admin.email}}</td>
+                      <td>{{students.parent.phone_number}}</td>
+                      <td>{{students.gender}}</td>
+                      <td>{{students.grade.class_name }}</td>
+                        {% if students.profile_Image %}
+                      <td><img src="{{students.profile_Image.url}}" style="width:90px"></td>
+                        {% else %}
+                        <td><img src="{{students.profile_Image}}" style="width:90px"></td>
+                        {% endif %}
+                      <td>{{students.admin.last_login }}</td>
+                      <td>{{students.date_created }}</td>
+                      <td><a href="{% url 'edit_student' students.id %}" class="btn btn-success">Edit</a></td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+
+ {% endblock %}

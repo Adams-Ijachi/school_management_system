@@ -1,0 +1,83 @@
+
+{% extends 'student/base_template.html' %}
+
+{% block header_title %}
+     Home
+{%  endblock  %}
+
+
+{% block main_content %}
+     <!-- Main content -->
+    <div class="col-md-20">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Notifications</h3>
+
+              <div class="card-tools">
+
+              </div>
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-controls">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Subject</th>
+                      <th>First Test</th>
+                      <th>Second Test</th>
+                       <th>Status</th>
+
+                    </tr>
+                  </thead>
+                    {% for result in student_result %}
+                    <tr>
+
+                    <td><b>{{ result.student_id.id}}</b></td>
+                    <td>{{ result.subject_id.subject_name}}</td>
+                    <td>{{ result.first_test}}</td>
+                     <td>{{ result.second_test}}</td>
+                     {% if result.second_test|add:result.first_test > 20 %}
+                        <td><span class="alert alert-success" style="padding-top:9px">Pass</span></td>
+                     {% else %}
+                        <td><span class="alert alert-danger" style="padding-top:9px">Fail</span></td>
+                        {% endif %}
+
+                     <td>{{ result.session_year_id.term}}</td>
+
+
+                    {%  endfor %}
+
+                   </tr>
+
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+    <!-- /.content -->
+
+
+{% endblock main_content %}
+

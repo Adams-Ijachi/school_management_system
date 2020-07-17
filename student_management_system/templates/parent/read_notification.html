@@ -1,0 +1,36 @@
+
+{% extends 'parent/base_template.html' %}
+
+
+{% block main_content %}
+
+<div class="col-md-20">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Read Notification</h3>
+
+              <div class="card-tools">
+
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-read-info">
+                <h5>{{ message_id.notify.name }}</h5>
+
+                  <h6> <span class="mailbox-read-time float-right">{{ message_id.created_at }}</span></h6>
+              </div>
+              <!-- /.mailbox-read-info -->
+                <!-- /.btn-group -->
+              </div>
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message">
+                <p>{{ message_id.notify.description }}</p>
+
+            </div>
+            <!-- /.card-footer -->
+            <!-- /.card-footer -->
+          </div>
+          <!-- /.card -->
+        </div>
+{% endblock main_content %}

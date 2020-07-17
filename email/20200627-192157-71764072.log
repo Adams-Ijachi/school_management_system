@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on localhost:8000
+From: webmaster@localhost
+To: florence@gmail.com
+Date: Sat, 27 Jun 2020 18:21:57 -0000
+Message-ID: <159328211722.14168.8153384664012053717@USER>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/account/reset/Mg/5hp-3c04c8600a8f5407c208/
+
+Your username, in case you’ve forgotten: florence@gmail.com
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------

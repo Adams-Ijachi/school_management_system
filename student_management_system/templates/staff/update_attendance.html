@@ -1,0 +1,265 @@
+{% extends 'staff/base_template.html' %}
+
+
+{% block header_title %}
+Update Attendance
+{%  endblock  %}
+
+{% block main_content %}
+
+
+   <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+
+              <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update Attendance</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+
+
+                <div class="card-body">
+
+                 <div class="form-group">
+                    <label >Class Name</label>
+                     <select  class="form-control" name="class_id" id="class_id">
+                          {% for classes in class %}
+                          <option value="{{ classes.id }}" >{{ classes.class_name }}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+
+
+               <div class="form-group">
+                    <label >Session Year</label>
+                     <select  class="form-control" name="session_year_id" id="session_year_id">
+                          {% for year in session %}
+                          <option value="{{ year.id }}" >{{ year.term }} Term</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+
+
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block" id="fetch_attendance">Fetch Attendance</button>
+                </div>
+
+                   <div class="form-group" id="attendance_block" style="display:none">
+                    <label >Attendance Date</label>
+                     <select  class="form-control" name="attendance_date" id="attendance_date">
+
+                     </select>
+                    <br>
+
+                  <div>
+                       <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block"  id="fetch_student_data">Fetch student </button>
+                </div>
+                  </div>
+                  </div>
+
+
+                 <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block" style="display:none" id="fetch_students">Fetch Attendance</button>
+                </div>
+
+
+                 <div class="form-group">
+                     <div class="alert alert-danger" id="error_attendance"   style='display:none'>
+
+                     </div>
+
+
+                 </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+          <!-- /.col -->
+                  <div  >
+                      <table id="new"  class="table table-hover text-nowrap">
+
+
+
+
+                      </table>
+                      <div class="btn btn-block">
+                         <button id='save_attendance'  style="display:none" class='btn btn-success btn-primary btn-block form-group '>Save Attendance </button>
+                      </div>
+                  </div>
+
+
+            </div>
+              </div>
+          </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+
+       $('#fetch_attendance').click(function()
+       {
+        var session_year_id =$('#session_year_id').val();
+        var class_id =$('#class_id').val();
+        $.ajax({
+
+
+
+      url:'{% url 'get_attendance_data' %}',
+      type:'POST',
+      data:{class_id:class_id,session_year_id:session_year_id},
+      })
+      .done(function(response){
+
+           var json_data = JSON.parse(response)
+           if(json_data.length>0)
+           {
+               var html_data = '';
+               for(key in json_data)
+               {
+                  html_data+="<option value="+json_data[key]["id"]+" >" +json_data[key]["attendance_date"]+ "</option>"
+               }
+               $('#error_attendance').html('');
+               $('#error_attendance').hide();
+               $('#attendance_block').show();
+               $('#attendance_date').html(html_data)
+               $('#save_data').show();
+
+
+
+           }
+           else
+           {
+             $('#error_attendance').html('No Attendance Date Found');
+             $('#error_attendance').show();
+             $('#attendance_block').hide();
+             $('#save_data').hide();
+             $('#attendance_date').html("");
+             $('#new').hide();
+             $('#save_attendance').hide();
+
+
+           }
+
+
+
+      })
+      .fail(function(){
+      alert('Error in Fetching Attendance');
+          $('#error_attendance').html('');
+           $('#save_data').hide();
+          $('#attendance_block').hide();
+
+      });
+
+
+
+
+
+       })
+     $('#fetch_student_data').click(function(){
+      var attendance_date =$('#attendance_date').val();
+
+
+
+      $.ajax({
+
+      url:'{% url 'get_student_attendance' %}',
+      type:'POST',
+      data:{attendance_id:attendance_date},
+      })
+      .done(function(response){
+          var json_data = response;
+          var div_data ='<thead><tr> <th> Student Attendance </th> <th> Status </th> </tr></thead>';
+          for( key in json_data )
+          {
+             div_data +="<tr><td><input type='checkbox' ";
+               if(json_data[key]['status']){
+                div_data+= " checked = 'checked' ";
+               }
+               else{
+                   div_data += "";
+               }
+
+               div_data +=  " name='student_data[]'  value=' "+json_data[key]['id'] +" ' ><label class='form-check-label' style='padding:10px'> <b> "+json_data[key]['Name']+" </b></label></td>";
+                if(json_data[key]['status']){
+                div_data+= "<td> <b> Present </b> </td> </tr> ";
+               }
+               else{
+                   div_data += " <td> <b> Absent </b> </td> </tr> ";
+               }
+               $('#save_attendance').show();
+          }
+
+          $('#new').show();
+          $('#new').html(div_data);
+
+
+
+      })
+      .fail(function(){
+      alert('Error')
+
+      });
+      $(document).on('click','#save_attendance',function(){
+       $(this).attr('disabled','disabled')
+       $(this).text('Saving Data......')
+       var student_data=$("input[name='student_data[]']").map(function(){
+
+       if ($(this).is(":checked")){
+                 return { "id": $(this).val(),'status':1};
+                 }
+                 else{
+                  return { "id": $(this).val(),'status':0};
+
+                 }
+        }).get()
+       var attendance_date=$("#attendance_date").val();
+
+
+
+       student_data = JSON.stringify(student_data)
+
+      $.ajax({
+
+      url:'{% url 'save_updated_attendance' %}',
+      type:'POST',
+      data:{student_id:student_data,attendance_date:attendance_date},
+      })
+      .done(function(response){
+      if( response =='ok')
+      {
+      alert('Attendance Saved')
+      }
+      else
+      {
+      alert('Attendance Not Saved')
+      }
+      location.reload()
+
+
+
+      })
+      .fail(function(){
+      alert('Error')
+      })
+       })
+       });
+
+
+    });
+</script>
+{% endblock custom_js %}

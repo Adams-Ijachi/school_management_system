@@ -1,0 +1,51 @@
+{% extends 'admin/list_templates.html' %}
+
+{% block header_title %}
+  Manage Class
+{% endblock %}
+
+{% block form %}
+    <div class="row">
+      <div class="col">
+        <div class="card card-body">
+          <form method="get">
+              {{ myFilter.form.as_p }}
+              <div class="btn btn-block">
+                <button type="submit" class="btn btn-primary form-control"><i class="fas fa-search"></i></button>
+              </div>
+          </form>
+          </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block table %}
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Class </th>
+                      <th>Form Master</th>
+                      <th>Session Start</th>
+                      <th>Session End</th>
+                      <th>Last Modified</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for class in grade %}
+                    <tr>
+
+                      <td>{{class.id}}</td>
+                      <td>{{class.class_name}}</td>
+                      <td>{{class.form_master.admin.first_name}} {{class.form_master.admin.last_name}}</td>
+                      <td>{{ class.session_year_id.session_start_year }}</td>
+                      <td>{{ class.session_year_id.session_end_year }}</td>
+                      <td>{{ class.updated_at }}</td>
+                      <td><a href="{% url 'edit_class' class.id %}" class="btn btn-success">Edit Class</a></td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+ {% endblock %}
