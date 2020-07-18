@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import environ
+from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,10 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('school_key')
+env = environ.Env(
+    DEBUG = (bool, True)
+)
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -140,3 +144,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('email_user')
 EMAIL_HOST_PASSWORD = os.environ.get('email_pass')
 DEFAULT_FROM_EMAIL = os.environ.get('email_user')
+print(EMAIL_HOST_USER)
