@@ -1,0 +1,75 @@
+
+{% extends 'student/base_template.html' %}
+
+{% block header_title %}
+     Home
+{%  endblock  %}
+
+
+{% block main_content %}
+     <!-- Main content -->
+    <div class="col-md-20">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Result</h3>
+
+              <div class="card-tools">
+
+              </div>
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-controls">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  <thead>
+                    <tr>
+                      
+                      
+                       <th>Session</th>
+                       <th>Action</th>
+
+                    </tr>
+                  </thead>
+                   
+                   {% for result in session %}
+                    <tr>
+
+                   
+                    <td>{{ result.term}} Term</td>
+                    <td><a href="{% url 'view_result' result.id %}" class="btn btn-success">View Result</a></td>
+                    {%  endfor %}
+
+                   </tr>
+
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+    <!-- /.content -->
+
+
+{% endblock main_content %}
+
+
+

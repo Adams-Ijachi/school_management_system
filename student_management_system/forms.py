@@ -482,14 +482,15 @@ class EditResultForm(forms.Form):
     session_id = forms.ChoiceField(label='Session',
                                    widget=forms.Select(attrs={'class': 'form-control'}))
 
-    student_id = ChoiceValidation(label='Student',
-                                   widget=forms.Select(attrs={'class': 'form-control'}))
 
-    first_test = forms.CharField(label='First Test',
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    # student_id = ChoiceValidation(label='Student',
+    #                                widget=forms.Select(attrs={'class': 'form-control'}))
 
-    second_test = forms.CharField(label='Second Test',
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
+    # first_test = forms.CharField(label='First Test',
+    #                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    # second_test = forms.CharField(label='Second Test',
+    #                               widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 
 

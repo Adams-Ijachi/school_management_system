@@ -1,5 +1,5 @@
 {% extends 'admin/list_templates.html' %}
-
+{% load static %}
 {% block header_title %}
   Manage Class
 {% endblock %}
@@ -43,9 +43,15 @@
                       <td>{{ class.session_year_id.session_end_year }}</td>
                       <td>{{ class.updated_at }}</td>
                       <td><a href="{% url 'edit_class' class.id %}" class="btn btn-success">Edit Class</a></td>
+                      <td><button type="button" class="btn btn-block btn-danger delete-row" id="{{class.id}}" data-url="{% url 'delete-class' class.id  %}">Delete</button></td>
 
                     </tr>
                   {% endfor %}
                   </tbody>
                 </table>
+                {% include 'admin/delete.html' %}
  {% endblock %}
+
+ {% block custom_js %}
+ <script src="{% static 'dist/js/delete-item.js' %}"></script>
+ {% endblock custom_js %}

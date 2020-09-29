@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from student_management_system import views
-
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('student_management_system.urls')),
     path('account/', include('django.contrib.auth.urls')),
+    path('api/', include(('student_management_system.api.urls','d'), namespace='d')),
+    path('api/auth/token/', obtain_jwt_token),
     path('login/', views.loginPage, name='login'),
     path('login_logic/', views.LoginLogic, name='login_logic'),
     path('logout/', views.LogoutUser, name='logout'),

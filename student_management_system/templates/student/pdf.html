@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=IE=edge, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        th,td{
+            padding: 3px;
+        }
+        th{
+            background-color: black;
+        }
+        *{
+          background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <table class="table table-hover table-striped">
+        <tbody>
+        <thead>
+          <tr>
+            
+            <th>Subject</th>
+            <th>First Test</th>
+            <th>Second Test</th>
+             <th>Status</th>
+             <th>Session</th>
+    
+          </tr>
+        </thead>
+          {% for result in student_result %}
+          <tr>
+    
+         
+          <td>{{ result.subject_id.subject_name}}</td>
+          <td>{{ result.first_test}}</td>
+           <td>{{ result.second_test}}</td>
+           {% if result.second_test|add:result.first_test > 20 %}
+              <td><span class="alert alert-success" style="padding-top:9px">Pass</span></td>
+           {% else %}
+              <td><span class="alert alert-danger" style="padding-top:9px">Fail</span></td>
+              {% endif %}
+    
+           <td>{{ result.session_year_id.term}} term </td>
+    
+    
+          {%  endfor %}
+    
+         </tr>
+    
+        </tbody>
+      </table>
+</body>
+</html>

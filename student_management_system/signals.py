@@ -14,9 +14,9 @@ def create_user_profile(sender,instance,created,**kwargs):
             Staff.objects.create(admin=instance, phone_number="", profile_Image="", address="", current_position="")
 
         if instance.user_type == 3:
-            Student.objects.create(admin=instance, grade=Class.objects.get(id=1), address="", profile_Image="",
+            Student.objects.create(admin=instance, grade=Class.objects.first(), address="", profile_Image="",
                                    gender="",
-                                   parent=Parent.objects.get(id=1))
+                                   parent=Parent.objects.first())
 
         if instance.user_type == 4:
             Parent.objects.create(admin=instance, phone_number="", gender="", address="", profile_Image="")
@@ -30,6 +30,7 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 2:
         instance.staff.save()
     if instance.user_type == 3:
+    
         instance.student.save()
     if instance.user_type == 4:
         instance.parent.save()

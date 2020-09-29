@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from student_management_system.models import CustomUser, Attendance, AttendanceReport, Notification
+from student_management_system.models import CustomUser, Attendance, AttendanceReport, Notification, StudentResult
 
 # Register your models here.
 
@@ -8,4 +8,5 @@ from student_management_system.models import CustomUser, Attendance, AttendanceR
 admin.site.register(CustomUser)
 admin.site.register(Attendance)
 admin.site.register(Notification)
+admin.site.register(StudentResult)
 

@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
+from django.forms.models import model_to_dict
 
 
 from student_management_system.forms import (StaffForm,
@@ -81,6 +82,40 @@ def home(request):
                                                    'absent_per_session': absent_per_session })
     else:
         return redirect(reverse('login'))
+
+def delete_user(request, pk):
+
+    user_delete =  CustomUser.objects.get(staff__id=pk)
+    if request.method == 'POST':
+       user_delete.delete()
+       return JsonResponse('Deleted', safe=False)
+
+
+def delete_user_parent(request, pk):
+    user_delete =  CustomUser.objects.get(parent__id=pk)
+    if request.method == 'POST':
+       user_delete.delete()
+       return JsonResponse('Deleted', safe=False)
+
+
+def delete_user_student(request, pk):
+    user_delete =  CustomUser.objects.get(student__id=pk)
+    if request.method == 'POST':
+       user_delete.delete()
+       return JsonResponse('Deleted', safe=False)
+
+def delete_class(request, pk):
+    user_delete =  Class.objects.get(id=pk)
+    if request.method == 'POST':
+       user_delete.delete()
+       return JsonResponse('Deleted', safe=False)
+
+def delete_subject(request, pk):
+    user_delete =  Subject.objects.get(id=pk)
+    if request.method == 'POST':
+       user_delete.delete()
+       return JsonResponse('Deleted', safe=False)
+
 
 
 @login_required
@@ -366,7 +401,7 @@ def AddStudentSave(request):
                     messages.error(request, 'Student Not Added')
                     return redirect(reverse('add_student'))
             else:
-                messages.error(request, 'Student Not Added')
+                messages.error(request, 'form not filled')
                 return redirect(reverse('add_student'))
     else:
         return redirect(reverse('login'))
@@ -616,8 +651,11 @@ def Class_update(request, pk):
         request.session['class_id'] = pk
 
         form.fields['class_name'].initial = grade.class_name
-        form.fields['form_master'].initial = grade.form_master.id
         form.fields['session'].initial = grade.session_year_id.id
+        if form.fields['form_master'].initial == None:
+            form.fields['form_master'].initial = ''
+        else:
+            form.fields['form_master'].initial = grade.form_master.id
         return render(request, 'admin/edit_class.html', {'form': form, 'class_id': pk})
     else:
         return redirect(reverse('login'))
@@ -748,8 +786,15 @@ def Student_update(request, pk):
         form.fields['address'].initial = student_id.address
         form.fields['gender'].initial = student_id.gender
         form.fields['profile_Image'].initial = student_id.profile_Image
-        form.fields['grade'].initial = student_id.grade.id
-        form.fields['parent'].initial = student_id.parent.id
+    
+        if form.fields['parent'].initial == None:
+            form.fields['parent'].initial = ''
+        else:
+            form.fields['parent'].initial = student_id.parent.id
+        if form.fields['grade'].initial == None:
+            form.fields['grade'].initial = ''
+        else:
+            form.fields['grade'].initial = student_id.grade.id
         return render(request, 'admin/edit_student.html', {'form': form, 'student_id': student_id})
     else:
         return redirect(reverse('login'))
@@ -814,7 +859,7 @@ def EditStudentSave(request):
                     messages.error(request, 'Student Not Added')
                     return redirect(reverse('edit_student', kwargs={'pk': student_id}))
             else:
-                messages.error(request, 'Student Not Added')
+                messages.error(request, 'Error While Filling Form Fields Must Be Field')
                 return redirect(reverse('edit_student', kwargs={'pk': student_id}))
     else:
         return redirect(reverse('login'))
@@ -828,8 +873,16 @@ def Subject_update(request, pk):
         subject_id = Subject.objects.get(id=pk)
         request.session['subject_id'] = pk
         form.fields['subject_name'].initial = subject_id.subject_name
-        form.fields['subject_teacher'].initial = subject_id.subject_teacher.id
-        form.fields['grade'].initial = subject_id.grade.id
+    
+        if form.fields['grade'].initial == None:
+            form.fields['grade'].initial = ''
+        else:
+            form.fields['grade'].initial = subject_id.grade.id
+        if form.fields['subject_teacher'].initial == None:
+            form.fields['subject_teacher'].initial = ''
+        else:
+            form.fields['subject_teacher'].initial = subject_id.subject_teacher.id
+
         return render(request, 'admin/edit_subject.html', {'form': form, 'subject_id': subject_id})
     else:
         return redirect(reverse('login'))

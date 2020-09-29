@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 
 from student_management_system import staff_view, student_view, parent_view
 from student_management_system.admin_view import StaffList, ClassList, StudentList, SubjectList
+from student_management_system.student_view import GeneratePDF
 from . import admin_view
 
 
@@ -42,6 +43,12 @@ urlpatterns = [
     path('add_session_save', admin_view.AddSessionSave, name='add_session_save'),
     path('notification', admin_view.notification, name='notification'),
     path('get_receiver', admin_view.get_receiver, name='get_receiver'),
+    path('delete-user/<int:pk>/', admin_view.delete_user, name='user-delete'),
+    path('delete-user-parent/<int:pk>/', admin_view.delete_user_parent, name='user-delete-parent'),
+    path('delete-user-student/<int:pk>/', admin_view.delete_user_student, name='user-delete-student'),
+    path('delete-class/<int:pk>/', admin_view.delete_class, name='delete-class'),
+    path('delete-subject/<int:pk>/', admin_view.delete_subject, name='delete-subject'),
+    
 
     path('staff', staff_view.home, name='staff_home'),
     path('take_attendance', staff_view.TakeAttendance, name='take_attendance'),
@@ -58,18 +65,22 @@ urlpatterns = [
     path('read_notification/<int:pk>', staff_view.read_notification, name='read_notification'),
     path('staff_add_result', staff_view.staff_add_result, name='staff_add_result'),
     path('add_result_list', staff_view.add_result_list, name='add_result_list'),
-    path('save_student_result', staff_view.save_student_result, name='save_student_result'),
     path('staff_edit_result', staff_view.StaffEditResult.as_view(), name='staff_edit_result'),
     path('staff_student_result', staff_view.staff_student_result, name='staff_student_result'),
+    path('save_result', staff_view.save_result, name='save_result'),
+    path('delete_result', staff_view.delete_result, name='delete_result'),
 
 
     path('student_home', student_view.home, name='student_home'),
     path('view_attendance', student_view.view_attendance, name='view_attendance'),
     path('student_view_notification', student_view.view_notification, name='student_view_notification'),
-    path('student_view_result', student_view.student_view_result, name='student_view_result'),
+    path('student_session', student_view.student_session, name='student_session'),
+   
     path('student_read_notification/<int:pk>', student_view.read_notification, name='student_read_notification'),
     path('student_edit_profile', student_view.student_edit_profile, name='student_edit_profile'),
     path('student_edit_profile_save', student_view.student_edit_profile_save, name='student_edit_profile_save'),
+    path('view_result/<int:pk>', student_view.view_result, name='view_result'),
+    path('pdf.html/<int:pk>', student_view.GeneratePDF.as_view(), name='pdf'),
 
     path('parent_home', parent_view.home, name='parent_home'),
     path('child_view_attendance', parent_view.child_view_attendance, name='child_view_attendance'),

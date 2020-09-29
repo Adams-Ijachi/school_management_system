@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+
+    #rest_framework apps
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +136,7 @@ LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'student_management_system.CustomUser'
 
-AUTHENTICATION_BACKENDS =['student_management_system.backends.EmailAuthentication']
+#AUTHENTICATION_BACKENDS =['student_management_system.backends.EmailAuthentication']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -143,3 +146,30 @@ EMAIL_HOST_USER = os.environ.get('email_user')
 EMAIL_HOST_PASSWORD = os.environ.get('email_pass')
 DEFAULT_FROM_EMAIL = os.environ.get('email_user')
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES':(
+    #     'rest_framework.renderers.JSONRenderer',
+    # ),
+    # 'DEFAULT_PARSER_CLASSES':(
+    #     'rest_framework.parsers.JSONParser',
+    # ),
+
+   'DEFAULT_AUTHENTICATION_CLASSES':(
+       'rest_framework.authentication.SessionAuthentication',
+       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES':(
+       'rest_framework.permissions.IsAuthenticated',
+   ),
+
+
+}
+
+'''
+curl -X POST -d 'username=ziyad@gmail.com&password=pius&email=ziyad@gmail.com' http://localhost:8000/api/auth/token/
+token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJ1c2VybmFtZSI6InppeWFkQGdtYWlsLmNvbSIsImV4cCI6MTYwMDg0ODQ5NSwiZW1haWwiOiJ6aXlhZEBnbWFpbC5jb20ifQ.4JiDPtfc219gi_spsN0VhLLygl-1OMCm9XsEDA7Fc4M"
+
+curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJ1c2VybmFtZSI6InppeWFkQGdtYWlsLmNvbSIsImV4cCI6MTYwMDg0OTc2NSwiZW1haWwiOiJ6aXlhZEBnbWFpbC5jb20ifQ.rCmxDC5j8YOntaYN3bEkuvg9uKOI_ScQUN9lz8So2Oo" http://localhost:8000/api/view/result-api/
+
+
+'''

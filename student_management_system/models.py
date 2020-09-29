@@ -136,7 +136,7 @@ class SessionYear(models.Model):
 class Class(models.Model):
     class_name = models.CharField(max_length=20)
     form_master = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
-    session_year_id = models.ForeignKey(SessionYear, on_delete=models.CASCADE, null=True)
+    session_year_id = models.ForeignKey(SessionYear, on_delete=models.SET_NULL, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
@@ -263,7 +263,7 @@ class StudentResult(models.Model):
     objects = UserManager()
 
     def __str__(self):
-        return self.student_id
+        return self.student_id.admin.email
 
 
 

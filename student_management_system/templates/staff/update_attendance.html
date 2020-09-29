@@ -169,7 +169,7 @@ Update Attendance
 
 
 
-       })
+       });
      $('#fetch_student_data').click(function(){
       var attendance_date =$('#attendance_date').val();
 
@@ -263,3 +263,56 @@ Update Attendance
     });
 </script>
 {% endblock custom_js %}
+
+
+
+
+
+
+
+
+if(typeof response == 'string'){
+  alert(response)
+}
+else{
+
+var json_data = response;
+var div_data ='<div class="form-group"><label>Student List :</label><select  class="form-control" name="student" id="student">';
+if(json_data.length>0){
+   for( key in json_data )
+   {
+      div_data +="<option value='"+json_data[key][0] +"'>"+json_data[key][1]+"</option>";
+   }
+   div_data += '</select>';
+   div_data += '</div>';
+
+   div_data += '<div class="form-group"><div class="row">';
+   div_data += '<div class="col-lg-6">';
+   div_data += '<label> First Test </label><input name="first_test" type="text" class="form-control" >';
+   div_data += '</div>';
+   div_data += '<div class="col-lg-6">';
+   div_data += '<label> Second Test </label><input name="second_test" type="text" class="form-control" >';
+   div_data += '</div>';
+   div_data += '</div></div>';
+
+
+
+   div_data += "<div class='form-group'>";
+   div_data += "<button id='save_attendance' type='submit' class='btn btn-success btn-primary btn-block'>Save Result </button>";
+   div_data += "</div>"
+   $('#student_data').html(div_data);
+   
+   }
+   else{
+
+      $('#error_attendance').html('No Students Found');
+       $('#error_attendance').show();
+
+
+   }
+ }
+
+})
+.fail(function(){
+alert('Error')
+});

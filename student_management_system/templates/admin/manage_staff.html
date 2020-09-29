@@ -1,5 +1,5 @@
 {% extends 'admin/list_templates.html' %}
-
+{% load static %}
 {% block header_title %}
   Manage Staff
 {% endblock %}
@@ -24,6 +24,7 @@
 {% block table %}
                   <table class="table table-hover text-nowrap">
                   <thead>
+                    {% csrf_token %} 
                     <tr>
                       <th>ID</th>
                       <th>First Name</th>
@@ -36,6 +37,7 @@
                       <th>Date Joined</th>
                       <th>Position</th>
                       <th>Action</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -59,9 +61,19 @@
                       <td>{{staffs.admin.date_joined }}</td>
                       <td>{{staffs.current_position }}</td>
                       <td><a href="{% url 'edit_staff' staffs.id %}" class="btn btn-success">Edit</a></td>
+                      <td><button type="button" class="btn btn-block btn-danger delete-row" id="{{staffs.id}}" data-url="{% url 'user-delete' staffs.id  %}">Delete</button></td>
 
                     </tr>
                   {% endfor %}
                   </tbody>
                 </table>
+                
+                {% include 'admin/delete.html' %}
+
  {% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'dist/js/delete-item.js' %}"></script>
+{% endblock custom_js %}
+
+

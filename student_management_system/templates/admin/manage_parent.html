@@ -1,5 +1,5 @@
 {% extends 'admin/list_templates.html' %}
-
+{% load static %}
 {% block header_title %}
   Manage Parent
 {% endblock %}
@@ -22,6 +22,7 @@
                       <th>Last Login</th>
                       <th>Date Joined</th>
                       <th>Action</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -51,8 +52,15 @@
                       <td>{{parent.admin.last_login }}</td>
                       <td>{{parent.date_created }}</td>
                       <td><a href="{% url 'edit_parent' parent.id %}" class="btn btn-success">Edit</a></td>
+                      <td><button type="button" class="btn btn-block btn-danger delete-row" id="{{parent.id}}" data-url="{% url 'user-delete-parent' parent.id  %}">Delete</button></td>
                     </tr>
                   {% endfor %}
                   </tbody>
                 </table>
+                {% include 'admin/delete.html' %}
+                
  {% endblock %}
+ {% block custom_js %}
+ <script src="{% static 'dist/js/delete.js' %}"></script>
+ {% endblock custom_js %}
+ 
