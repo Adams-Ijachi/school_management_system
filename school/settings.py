@@ -166,10 +166,24 @@ REST_FRAMEWORK = {
 }
 
 '''
-curl -X POST -d 'username=ziyad@gmail.com&password=pius&email=ziyad@gmail.com' http://localhost:8000/api/auth/token/
+curl -X POST -d 'email=adamsijachi@gmail.com&password=pius' http://localhost:8000/api/auth/token/
 token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJ1c2VybmFtZSI6InppeWFkQGdtYWlsLmNvbSIsImV4cCI6MTYwMDg0ODQ5NSwiZW1haWwiOiJ6aXlhZEBnbWFpbC5jb20ifQ.4JiDPtfc219gi_spsN0VhLLygl-1OMCm9XsEDA7Fc4M"
 
-curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2LCJ1c2VybmFtZSI6InppeWFkQGdtYWlsLmNvbSIsImV4cCI6MTYwMDg0OTc2NSwiZW1haWwiOiJ6aXlhZEBnbWFpbC5jb20ifQ.rCmxDC5j8YOntaYN3bEkuvg9uKOI_ScQUN9lz8So2Oo" http://localhost:8000/api/view/result-api/
+curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkYW1zaWphY2hpQGdtYWlsLmNvbSIsImV4cCI6MTYwMDg1Njc4NiwiZW1haWwiOiJhZGFtc2lqYWNoaUBnbWFpbC5jb20ifQ.zVEx1UJtVd-w2Q8KYmdWAGTEyHz_Bg0qkIS-aogzD-4"" http://localhost:8000/api/viewset-create/create-student/
+
+ "admin": {"first_name": "miss haddy", "last_name": "ameria", "username": "hadd", "email": "haddy@gmail.com" }
 
 
+   "gender": "Female", "address": "enugu state", "profile_Image": "", "date_created": "", "parent": 5,"grade": 10
+
+
+
+
+
+
+
+
+
+
+{'admin': OrderedDict([('first_name', 'test'), ('last_name', 'user'), ('username', 'test'), ('password', 'pius'), ('email', 'test@gmail.com')]), 'gender': 'Male', 'address': 'enugu', 'parent': <Parent: adams>, 'grade': <Class: jss2>}
 '''
